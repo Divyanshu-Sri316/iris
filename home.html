@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Species Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Iris Species Predictor</h1>
+    <form id="predictionForm">
+        <input type="number" name="sepal_length" placeholder="Sepal Length (cm)" step="0.1" required>
+        <input type="number" name="sepal_width" placeholder="Sepal Width (cm)" step="0.1" required>
+        <input type="number" name="petal_length" placeholder="Petal Length (cm)" step="0.1" required>
+        <input type="number" name="petal_width" placeholder="Petal Width (cm)" step="0.1" required>
+        <button type="button" onclick="predict()">Predict</button>
+    </form>
+    <p id="result"></p>
+    <script>
+        async function predict() {
+            const form = document.getElementById('predictionForm');
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = `Predicted Species: ${result.species}`;
+        }
+    </script>
+</body>
+</html>
